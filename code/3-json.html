@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #result {
+        width: 200px;
+        height: 100px;
+        border: 1px solid pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="result"></div>
+
+    <script>
+      const result = document.querySelector('#result');
+      result.addEventListener('mouseenter', () => {
+        const xhr = new XMLHttpRequest();
+        // 初始化，设置请求方法和url
+        xhr.open('GET', 'http://localhost:8000/json-server');
+        // 设置响应体数据的类型
+        xhr.responseType = 'json';
+        // 发送
+        xhr.send();
+        // 事件绑定 处理服务端返回的结果
+        xhr.onreadystatechange = function () {
+          // 判断 服务端返回了所有的结果
+          if (xhr.readyState === xhr.DONE) {
+            // 判断响应状态码
+            if (xhr.status >= 200 && xhr.status <= 300) {
+              console.log(xhr.response);
+              // let data = JSON.parse(xhr.response);
+              // console.log(data);
+              xhr.response.name;
+              result.innerHTML = xhr.response.name;
+            }
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
